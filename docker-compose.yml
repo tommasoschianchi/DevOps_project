@@ -1,0 +1,34 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # URL pubblico del backend visto dal browser
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+        VITE_USE_MOCK: ${VITE_USE_MOCK:-true}
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  # Servizi del team backend (da attivare quando la cartella ./backend esiste)
+  # backend:
+  #   build: ./backend
+  #   environment:
+  #     DATABASE_URL: postgres://eventi:eventi@db:5432/eventi
+  #     JWT_SECRET: cambiami
+  #     SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - db
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: eventi
+  #     POSTGRES_PASSWORD: eventi
+  #     POSTGRES_DB: eventi
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
