@@ -1,0 +1,25 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+  runs-on: ubuntu-latest  
+  strategy:
+    matrix:
+      python-version: ["3.12", "3.13"]
+    service:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: eventi
+          POSTGRES_PASSWORD: eventi
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U eventi"
+
+
